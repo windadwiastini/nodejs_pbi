@@ -38,3 +38,19 @@ Staff.findById(req.params.id, function (err, staff) {
     res.send(staff);
 })
 };
+
+exports.staff_update = function (req, res) {
+    Staff.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true }, function (err, staff) {
+        if (err) return next(err);
+        // res.send('Product udpated.');
+        res.status(200).json(staff);
+    });
+};
+
+exports.staff_delete = function (req, res) {
+    Staff.findByIdAndRemove(req.params.id, function (err) {
+        if (err) return next(err);
+        // res.send('Deleted successfully!');
+        res.status(200).json({});
+    })
+};
