@@ -23,3 +23,18 @@ exports.staff_create = function (req, res) {
         // res.send('Staff Created successfully')
     })
 };
+
+exports.staff_all = function (req, res) {
+Staff.find( function(err, staffs) {
+    if (err) return next(err);
+    // res.send(products);
+    res.status(200).json(staffs);
+})
+};
+
+exports.staff_details = function (req, res) {
+Staff.findById(req.params.id, function (err, staff) {
+    if (err) return next(err);
+    res.send(staff);
+})
+};
