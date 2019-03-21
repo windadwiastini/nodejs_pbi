@@ -7,7 +7,7 @@ exports.test = function (req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods","*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  
+
     res.send('This is staff controller');
   };
 
@@ -21,19 +21,20 @@ exports.staff_create = function (req, res) {
 
     staff.save(function (err) {
         if (err) {
-        return next(err);
+        return res.status(400).json(err.message);
         }
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Methods","*");
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.status(200).json(staff);
-        // res.send('Staff Created successfully')
     })
 };
 
 exports.staff_all = function (req, res) {
 Staff.find( function(err, staffs) {
-    if (err) return next(err);
+    if (err) {
+        return res.status(400).json(err);
+    }
     // res.send(products);
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods","*");
@@ -48,13 +49,16 @@ Staff.findById(req.params.id, function (err, staff) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods","*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    if (err) {
+        return res.status(400).json(err);
+    }
     res.send(staff);
 })
 };
 
 exports.staff_update = function (req, res) {
     Staff.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true }, function (err, staff) {
-        if (err) return next(err);
+        if (err) return res.status(400).json(err);
         // res.send('Product udpated.');
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Methods","*");
@@ -65,7 +69,7 @@ exports.staff_update = function (req, res) {
 
 exports.staff_delete = function (req, res) {
     Staff.findByIdAndRemove(req.params.id, function (err) {
-        if (err) return next(err);
+        if (err) return res.status(400).json(err);
         // res.send('Deleted successfully!');
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Methods","*");
