@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 let StaffSchema = new Schema({
-  name: { type: String, required: true, max: 100 },
+  name: { type: String, required: true, maxlength: 5 },
   age: { type: Number, required: true },
 });
 
