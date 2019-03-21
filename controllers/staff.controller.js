@@ -17,16 +17,17 @@ exports.staff_create = function (req, res) {
 
     staff.save(function (err) {
         if (err) {
-        return next(err);
+        return res.status(400).json(err.message);
         }
         res.status(200).json(staff);
-        // res.send('Staff Created successfully')
     })
 };
 
 exports.staff_all = function (req, res) {
 Staff.find( function(err, staffs) {
-    if (err) return next(err);
+    if (err) {
+        return res.status(400).json(err);  
+    }
     // res.send(products);
     res.status(200).json(staffs);
 })
@@ -34,14 +35,16 @@ Staff.find( function(err, staffs) {
 
 exports.staff_details = function (req, res) {
 Staff.findById(req.params.id, function (err, staff) {
-    if (err) return next(err);
+    if (err) {
+        return res.status(400).json(err);
+    }
     res.send(staff);
 })
 };
 
 exports.staff_update = function (req, res) {
     Staff.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true }, function (err, staff) {
-        if (err) return next(err);
+        if (err) return res.status(400).json(err);
         // res.send('Product udpated.');
         res.status(200).json(staff);
     });
@@ -49,7 +52,7 @@ exports.staff_update = function (req, res) {
 
 exports.staff_delete = function (req, res) {
     Staff.findByIdAndRemove(req.params.id, function (err) {
-        if (err) return next(err);
+        if (err) return res.status(400).json(err);
         // res.send('Deleted successfully!');
         res.status(200).json({});
     })
